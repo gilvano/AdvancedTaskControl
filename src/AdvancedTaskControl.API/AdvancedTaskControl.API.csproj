@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AdvancedTaskControl.Business\AdvancedTaskControl.Business.csproj" />
     <ProjectReference Include="..\AdvancedTaskControl.Data\AdvancedTaskControl.Data.csproj" />
   </ItemGroup>
 
