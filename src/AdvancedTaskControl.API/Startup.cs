@@ -12,7 +12,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AdvancedTaskControl.Data.Context;
+using AdvancedTaskControl.Data.Repository;
 using Microsoft.OpenApi.Models;
+using AdvancedTaskControl.Business.Interfaces;
+using AdvancedTaskControl.Business.Services;
 
 namespace AdvancedTaskControl.API
 {
@@ -34,6 +37,8 @@ namespace AdvancedTaskControl.API
 
 
             services.AddControllers();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddSwaggerGen(c =>
             {

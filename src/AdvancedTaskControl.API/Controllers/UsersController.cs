@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
+using AdvancedTaskControl.Business.Interfaces;
 
 namespace AdvancedTaskControl.API.Controllers
 {
@@ -14,26 +14,25 @@ namespace AdvancedTaskControl.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly MeuDbContext _context;
+        private readonly IUserService _userService;
 
-        public UsersController(MeuDbContext context)
+        public UsersController(IUserService userService)
         {
-            _context = context;
+            _userService = userService;
         }
 
         [HttpPost]
         public async Task<ActionResult<User>> AddUser(User user)
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
+            await _userService.Insert(user);
+          
             return Ok(user);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _userService.GetById(id);
 
             if (user == null)
             {
@@ -46,7 +45,7 @@ namespace AdvancedTaskControl.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _userService.GetAll();
         }
 
     }
