@@ -16,6 +16,10 @@ using AdvancedTaskControl.Data.Repository;
 using Microsoft.OpenApi.Models;
 using AdvancedTaskControl.Business.Interfaces;
 using AdvancedTaskControl.Business.Services;
+using FluentValidation.AspNetCore;
+using AdvancedTaskControl.API.Models;
+using FluentValidation;
+using AdvancedTaskControl.Business.Models.Validations;
 
 namespace AdvancedTaskControl.API
 {
@@ -39,6 +43,9 @@ namespace AdvancedTaskControl.API
             services.AddControllers();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddFluentValidation();
+            services.AddTransient<IValidator<User>, UserValidator>();
 
             services.AddSwaggerGen(c =>
             {
