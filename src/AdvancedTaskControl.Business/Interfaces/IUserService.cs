@@ -8,7 +8,7 @@ namespace AdvancedTaskControl.Business.Interfaces
 {
     public interface IUserService : IDisposable
     {
-        Task Insert(User user);
+        Task<bool> Insert(User user);
         Task Update(User user);
         Task Remove(int id);
         Task<User> GetById(int id);

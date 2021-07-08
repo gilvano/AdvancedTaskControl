@@ -15,10 +15,13 @@ namespace AdvancedTaskControl.Business.Services
             _userRepository = userRepository;
         }
 
-        public async Task Insert(User user)
+        public async Task<bool> Insert(User user)
         {
-           await _userRepository.Add(user);
-            
+            if(await _userRepository.ExistsUsername(user.Username)) 
+                return false;
+
+            await _userRepository.Add(user);
+            return true;
         }
 
         public async Task<List<User>> GetAll()

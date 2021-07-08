@@ -33,9 +33,15 @@ namespace AdvancedTaskControl.Data.Repository
             return await _context.Users.ToListAsync();
         }
 
-        public Task<User> GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<bool> ExistsUsername(string username)
+        {
+            var dbSet = _context.Set<User>();
+            return await dbSet.AsNoTracking().AnyAsync(u => u.Username == username);
         }
 
         public Task Remove(int id)

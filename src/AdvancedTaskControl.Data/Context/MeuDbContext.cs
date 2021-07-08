@@ -18,9 +18,12 @@ namespace AdvancedTaskControl.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .Property(u => u.Id)
-                .ValueGeneratedOnAdd();
+            modelBuilder.Entity<User>(
+                us => {
+                    us.Property(u => u.Id).ValueGeneratedOnAdd();
+                    us.HasIndex(u => u.Username).IsUnique();
+                   }
+                );
         }
     }
 }

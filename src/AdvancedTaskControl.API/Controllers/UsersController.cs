@@ -30,7 +30,8 @@ namespace AdvancedTaskControl.API.Controllers
         {            
             var user = _mapper.Map<User>(userModelView);
 
-            await _userService.Insert(user);
+            if (!await _userService.Insert(user))
+                return BadRequest("Usuário já existe!");
 
             return Ok();
         }

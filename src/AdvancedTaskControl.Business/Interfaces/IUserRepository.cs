@@ -11,6 +11,7 @@ namespace AdvancedTaskControl.Business.Interfaces
         Task Add(User user);
         Task<User> GetById(int id);
         Task<List<User>> GetAll();
+        Task<bool> ExistsUsername(string username);
         Task Update(User user);
         Task Remove(int id);
         Task<int> SaveChanges();
