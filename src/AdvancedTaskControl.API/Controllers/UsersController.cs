@@ -26,13 +26,13 @@ namespace AdvancedTaskControl.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser(User user)
-        {
+        public async Task<ActionResult<UserViewModel>> AddUser(UserViewModel userModelView)
+        {            
+            var user = _mapper.Map<User>(userModelView);
+
             await _userService.Insert(user);
 
-            var userViewModel = _mapper.Map<UserViewModel>(user);
-
-            return Ok(userViewModel);
+            return Ok();
         }
 
         [HttpGet("{id}")]
