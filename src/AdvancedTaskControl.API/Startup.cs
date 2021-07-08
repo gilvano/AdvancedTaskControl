@@ -47,6 +47,7 @@ namespace AdvancedTaskControl.API
             services.AddFluentValidation();
             services.AddTransient<IValidator<User>, UserValidator>();
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Adv Task Api", Version = "v1" });

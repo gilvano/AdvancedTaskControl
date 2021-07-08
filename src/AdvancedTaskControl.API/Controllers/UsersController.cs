@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using AdvancedTaskControl.Business.Interfaces;
+using AutoMapper;
+using AdvancedTaskControl.API.ViewModels;
 
 namespace AdvancedTaskControl.API.Controllers
 {
@@ -15,18 +17,22 @@ namespace AdvancedTaskControl.API.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         public async Task<ActionResult<User>> AddUser(User user)
         {
             await _userService.Insert(user);
-          
-            return Ok(user);
+
+            var userViewModel = _mapper.Map<UserViewModel>(user);
+
+            return Ok(userViewModel);
         }
 
         [HttpGet("{id}")]
