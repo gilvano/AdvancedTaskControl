@@ -9,6 +9,7 @@ namespace AdvancedTaskControl.API.Configuration
         public AutoMapperConfig()
         {
             CreateMap<User, UserViewModel>().ReverseMap();
+            CreateMap<UserLoginModelView, User>();
         }
     }
 }

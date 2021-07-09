@@ -43,9 +43,11 @@ namespace AdvancedTaskControl.API
             services.AddControllers();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, TokenService>();
 
             services.AddFluentValidation();
             services.AddTransient<IValidator<User>, UserValidator>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerGen(c =>
@@ -61,7 +63,7 @@ namespace AdvancedTaskControl.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Adv Task Api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
             }
 
                app.UseHttpsRedirection();
