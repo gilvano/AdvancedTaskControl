@@ -9,11 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using AdvancedTaskControl.Business.Interfaces;
 using AutoMapper;
 using AdvancedTaskControl.API.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AdvancedTaskControl.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
