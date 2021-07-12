@@ -2,6 +2,7 @@
 using AdvancedTaskControl.Business.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,6 +30,11 @@ namespace AdvancedTaskControl.Business.Services
             return await _userRepository.GetAll();
         }
 
+        public IQueryable<User> GetAllQueryable()
+        {
+            return _userRepository.GetAllQueryable();
+        }
+
         public async Task<User> GetById(int id)
         {
             return await _userRepository.GetById(id);
@@ -48,5 +54,6 @@ namespace AdvancedTaskControl.Business.Services
         {
             _userRepository?.Dispose();
         }
+
     }
 }

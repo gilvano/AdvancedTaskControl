@@ -23,6 +23,10 @@ using AdvancedTaskControl.Business.Models.Validations;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using AdvancedTaskControl.API.Graph.Users;
+using HotChocolate;
+using HotChocolate.AspNetCore.Playground;
+using HotChocolate.AspNetCore;
 
 namespace AdvancedTaskControl.API
 {
@@ -100,6 +104,13 @@ namespace AdvancedTaskControl.API
                     ValidateAudience = false
                 };
             });
+
+            services.AddScoped<UserQuery>();
+            //services.AddScoped<Mutuation>();
+            services.AddGraphQL(c => SchemaBuilder.New().AddServices(c).AddType<UserTypes>()
+                                                                        .AddQueryType<UserQuery>()
+                                                                        //.AddMutationType<Mutuation>()
+                                                                         .Create());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,9 +123,17 @@ namespace AdvancedTaskControl.API
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
+
+                app.UsePlayground(new PlaygroundOptions
+                {
+                    QueryPath = "/graphql",
+                    Path = "/playground"
+                });
             }
 
-               app.UseHttpsRedirection();
+            app.UseGraphQL("/graphql");
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
