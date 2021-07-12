@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AE00BFEB-35D9-4863-AA56-BB2D4A274286}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedTaskControl.API", "src\AdvancedTaskControl.API\AdvancedTaskControl.API.csproj", "{240A8ED8-8573-4DEA-B011-6BA76C4FA5C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTaskControl.API", "src\AdvancedTaskControl.API\AdvancedTaskControl.API.csproj", "{240A8ED8-8573-4DEA-B011-6BA76C4FA5C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedTaskControl.Business", "src\AdvancedTaskControl.Business\AdvancedTaskControl.Business.csproj", "{5E6D2778-9189-492F-9C33-C2C9F1A09AE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTaskControl.Business", "src\AdvancedTaskControl.Business\AdvancedTaskControl.Business.csproj", "{5E6D2778-9189-492F-9C33-C2C9F1A09AE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvancedTaskControl.Data", "src\AdvancedTaskControl.Data\AdvancedTaskControl.Data.csproj", "{8352A987-3C78-4B8C-AB5D-7E903053C433}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvancedTaskControl.Data", "src\AdvancedTaskControl.Data\AdvancedTaskControl.Data.csproj", "{8352A987-3C78-4B8C-AB5D-7E903053C433}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{240A8ED8-8573-4DEA-B011-6BA76C4FA5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -60,10 +59,28 @@ Global
 		{8352A987-3C78-4B8C-AB5D-7E903053C433}.Release|x64.Build.0 = Release|Any CPU
 		{8352A987-3C78-4B8C-AB5D-7E903053C433}.Release|x86.ActiveCfg = Release|Any CPU
 		{8352A987-3C78-4B8C-AB5D-7E903053C433}.Release|x86.Build.0 = Release|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Debug|x64.Build.0 = Debug|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Debug|x86.Build.0 = Debug|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Release|x64.ActiveCfg = Release|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Release|x64.Build.0 = Release|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Release|x86.ActiveCfg = Release|Any CPU
+		{3714F25C-FCA3-46E5-8CF6-6D8F412945B7}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{240A8ED8-8573-4DEA-B011-6BA76C4FA5C2} = {AE00BFEB-35D9-4863-AA56-BB2D4A274286}
 		{5E6D2778-9189-492F-9C33-C2C9F1A09AE0} = {AE00BFEB-35D9-4863-AA56-BB2D4A274286}
 		{8352A987-3C78-4B8C-AB5D-7E903053C433} = {AE00BFEB-35D9-4863-AA56-BB2D4A274286}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {01F6C55C-1AD2-4C3F-8B8D-1D66CDF45F0F}
 	EndGlobalSection
 EndGlobal

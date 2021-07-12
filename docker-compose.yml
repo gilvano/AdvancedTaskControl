@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  db-postgres:
+    container_name: db-advtask 
+    image: postgres:12.7-alpine
+    ports:
+      - 5432:5432
+    environment: 
+      POSTGRES_DB: advtask
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    networks:
+      - pg-network
+      
+  advancedtaskcontrol.api:
+    image: ${DOCKER_REGISTRY-}advancedtaskcontrolapi
+    build:
+      context: .
+      dockerfile: src/AdvancedTaskControl.API/Dockerfile
+    depends_on:
+      - db-postgres
+    networks:
+      - pg-network
+
+volumes:
+  database-data: 
+
+networks:
+  pg-network:
+    driver: bridge
+
+  

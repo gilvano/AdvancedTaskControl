@@ -42,7 +42,6 @@ namespace AdvancedTaskControl.API
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-
             services.AddControllers();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
@@ -104,8 +103,10 @@ namespace AdvancedTaskControl.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MeuDbContext dataContext)
         {
+            dataContext.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
