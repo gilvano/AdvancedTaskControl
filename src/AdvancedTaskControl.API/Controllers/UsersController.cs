@@ -28,6 +28,7 @@ namespace AdvancedTaskControl.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "ADM")]
         public async Task<ActionResult<UserViewModel>> AddUser(UserViewModel userModelView)
         {            
             var user = _mapper.Map<User>(userModelView);
@@ -52,6 +53,7 @@ namespace AdvancedTaskControl.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "ADM")]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             return await _userService.GetAll();
