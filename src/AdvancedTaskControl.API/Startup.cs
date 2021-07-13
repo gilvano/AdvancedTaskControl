@@ -106,11 +106,16 @@ namespace AdvancedTaskControl.API
             });
 
             services.AddScoped<UserQuery>();
-            //services.AddScoped<Mutuation>();
-            services.AddGraphQL(c => SchemaBuilder.New().AddServices(c).AddType<UserTypes>()
-                                                                        .AddQueryType<UserQuery>()
-                                                                        //.AddMutationType<Mutuation>()
-                                                                         .Create());
+            services.AddScoped<UserMutation>();
+            //services.AddGraphQL(c => SchemaBuilder.New().AddServices(c).AddType<UserTypes>()
+            //                                                            .AddQueryType<UserQuery>()
+            //                                                            .AddMutationType<UserMutation>()
+            //                                                             .Create());
+            services.AddGraphQLServer()
+                .AddType<UserTypes>()
+                .AddQueryType<UserQuery>()
+                .AddMutationType<UserMutation>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -126,12 +131,12 @@ namespace AdvancedTaskControl.API
 
                 app.UsePlayground(new PlaygroundOptions
                 {
-                    QueryPath = "/graphql",
+                    QueryPath = "/graph",
                     Path = "/playground"
                 });
             }
 
-            app.UseGraphQL("/graphql");
+            //app.UseGraphQL("/graph");
 
             app.UseHttpsRedirection();
 
@@ -143,6 +148,8 @@ namespace AdvancedTaskControl.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
+                endpoints.MapGraphQL("/internal", schemaName: "internal");
             });
         }
     }
