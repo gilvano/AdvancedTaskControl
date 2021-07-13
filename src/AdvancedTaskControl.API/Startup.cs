@@ -107,10 +107,6 @@ namespace AdvancedTaskControl.API
 
             services.AddScoped<UserQuery>();
             services.AddScoped<UserMutation>();
-            //services.AddGraphQL(c => SchemaBuilder.New().AddServices(c).AddType<UserTypes>()
-            //                                                            .AddQueryType<UserQuery>()
-            //                                                            .AddMutationType<UserMutation>()
-            //                                                             .Create());
             services.AddGraphQLServer()
                 .AddType<UserTypes>()
                 .AddQueryType<UserQuery>()
@@ -135,8 +131,6 @@ namespace AdvancedTaskControl.API
                     Path = "/playground"
                 });
             }
-
-            //app.UseGraphQL("/graph");
 
             app.UseHttpsRedirection();
 
