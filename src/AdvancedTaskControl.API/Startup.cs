@@ -27,6 +27,7 @@ using AdvancedTaskControl.API.Graph.Users;
 using HotChocolate;
 using HotChocolate.AspNetCore.Playground;
 using HotChocolate.AspNetCore;
+using AdvancedTaskControl.API.Configuration;
 
 namespace AdvancedTaskControl.API
 {
@@ -47,9 +48,7 @@ namespace AdvancedTaskControl.API
             });
 
             services.AddControllers();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ITokenService, TokenService>();
+            services.ResolveDependencies();
 
             services.AddFluentValidation();
             services.AddTransient<IValidator<User>, UserValidator>();
