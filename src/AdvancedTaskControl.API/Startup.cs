@@ -27,7 +27,7 @@ using AdvancedTaskControl.API.Graph.Users;
 using HotChocolate;
 using HotChocolate.AspNetCore.Playground;
 using HotChocolate.AspNetCore;
-using AdvancedTaskControl.API.configuration;
+using AdvancedTaskControl.API.Configuration;
 
 namespace AdvancedTaskControl.API
 {
