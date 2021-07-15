@@ -27,7 +27,7 @@ using AdvancedTaskControl.API.Graph.Users;
 using HotChocolate;
 using HotChocolate.AspNetCore.Playground;
 using HotChocolate.AspNetCore;
-using AdvancedTaskControl.API.Configuration;
+using AdvancedTaskControl.API.configuration;
 
 namespace AdvancedTaskControl.API
 {
@@ -57,25 +57,7 @@ namespace AdvancedTaskControl.API
             services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerConfig();
-
-            var key = Encoding.ASCII.GetBytes(Configuration.GetValue<string>("AppSettings:Secret"));
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+            services.AddAuthenticationConfig(Configuration);
 
             services.AddScoped<UserQuery>();
             services.AddScoped<UserMutation>();
