@@ -58,14 +58,7 @@ namespace AdvancedTaskControl.API
 
             services.AddSwaggerConfig();
             services.AddAuthenticationConfig(Configuration);
-
-            services.AddScoped<UserQuery>();
-            services.AddScoped<UserMutation>();
-            services.AddGraphQLServer()
-                .AddType<UserTypes>()
-                .AddQueryType<UserQuery>()
-                .AddMutationType<UserMutation>();
-
+            services.AddGraphQLConfig();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
