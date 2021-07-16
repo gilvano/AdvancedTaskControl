@@ -17,5 +17,10 @@ namespace AdvancedTaskControl.API.Graph.Users
         }
 
         public IQueryable<User> Users => _userService.GetAllQueryable();
+
+        public async Task<User> UserById(int id) 
+        {
+            return await _userService.GetById(id);
+        }
     }
 }
