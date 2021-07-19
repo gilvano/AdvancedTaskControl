@@ -9,9 +9,9 @@ namespace AdvancedTaskControl.Business.Models
 {
     public class UserTask
     {
-        public int id { get; set; }
-        public string description { get; set; }
-        public string resume { get; set; }        
+        public int Id { get; set; }
+        public string Description { get; set; }
+        public string Resume { get; set; }        
 
     }
 }

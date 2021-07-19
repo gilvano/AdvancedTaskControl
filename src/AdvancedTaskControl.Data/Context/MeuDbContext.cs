@@ -1,4 +1,5 @@
 ﻿using AdvancedTaskControl.API.Models;
+using AdvancedTaskControl.Business.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace AdvancedTaskControl.Data.Context
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<UserTask> UserTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +28,14 @@ namespace AdvancedTaskControl.Data.Context
                 }
             );
 
-             modelBuilder.Entity<User>()
+            modelBuilder.Entity<UserTask>(
+                us =>
+                {
+                    us.Property(ut => ut.Id).ValueGeneratedOnAdd();
+                }
+            );
+
+            modelBuilder.Entity<User>()
                 .HasData(
                     new User
                     {
