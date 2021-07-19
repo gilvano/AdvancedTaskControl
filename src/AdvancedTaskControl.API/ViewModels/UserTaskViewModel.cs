@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdvancedTaskControl.API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,6 @@ namespace AdvancedTaskControl.API.ViewModels
     {
         public string description { get; set; }
         public string resume { get; set; }
+        public int userId { get; set; }
     }
 }

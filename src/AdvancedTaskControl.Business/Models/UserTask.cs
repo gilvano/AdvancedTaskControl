@@ -13,6 +13,7 @@ namespace AdvancedTaskControl.Business.Models
         public string Description { get; set; }
         public string Resume { get; set; }
 
+        public int userId { get; set; }
         public User User { get; set; }
 
     }

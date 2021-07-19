@@ -27,13 +27,18 @@ namespace AdvancedTaskControl.Data.Context
                     us.HasIndex(u => u.Username).IsUnique();
                 }
             );
-
+ 
             modelBuilder.Entity<UserTask>(
                 us =>
                 {
                     us.Property(ut => ut.Id).ValueGeneratedOnAdd();
                 }
             );
+
+            modelBuilder.Entity<UserTask>()
+                .HasOne(u => u.User)
+                .WithMany(t => t.UserTasks)
+                .HasForeignKey(u => u.userId);
 
             modelBuilder.Entity<User>()
                 .HasData(
