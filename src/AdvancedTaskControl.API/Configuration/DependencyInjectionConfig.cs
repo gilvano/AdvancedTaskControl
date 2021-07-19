@@ -16,7 +16,8 @@ namespace AdvancedTaskControl.API.Configuration
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITokenService, TokenService>();
-
+            services.AddScoped<IUserTaskRepository, UserTaskRepository>();
+            services.AddScoped<IUserTaskService, UserTaskService>();
             return services;
         }
     }
