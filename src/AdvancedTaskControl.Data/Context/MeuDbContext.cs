@@ -17,6 +17,7 @@ namespace AdvancedTaskControl.Data.Context
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserTask> UserTasks { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,9 +37,14 @@ namespace AdvancedTaskControl.Data.Context
             );
 
             modelBuilder.Entity<UserTask>()
-                .HasOne(u => u.User)
-                .WithMany(t => t.UserTasks)
-                .HasForeignKey(u => u.userId);
+                .HasOne(ut => ut.User)
+                .WithMany(u => u.UserTasks)
+                .HasForeignKey(ut => ut.userId);
+
+            modelBuilder.Entity<UserTask>()
+                .HasOne(u => u.Category)
+                .WithMany(c => c.UserTasks)
+                .HasForeignKey(u => u.CategoryId);
 
             modelBuilder.Entity<User>()
                 .HasData(
@@ -57,6 +63,25 @@ namespace AdvancedTaskControl.Data.Context
                         Role = "USER"
                     }
             );
+
+            modelBuilder.Entity<Category>()
+                .HasData(
+                    new Category
+                    {
+                        Id = 1,
+                        CategoryDescription = "Categoria 1"
+                    },
+                    new Category
+                    {
+                        Id = 2,
+                        CategoryDescription = "Categoria 2"
+                    },
+                    new Category
+                    {
+                        Id = 3,
+                        CategoryDescription = "Categoria 3"
+                    }
+                );
         }
     }
 }
