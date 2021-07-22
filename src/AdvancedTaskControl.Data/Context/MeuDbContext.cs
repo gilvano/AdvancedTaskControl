@@ -39,7 +39,7 @@ namespace AdvancedTaskControl.Data.Context
             modelBuilder.Entity<UserTask>()
                 .HasOne(ut => ut.User)
                 .WithMany(u => u.UserTasks)
-                .HasForeignKey(ut => ut.userId);
+                .HasForeignKey(ut => ut.UserId);
 
             modelBuilder.Entity<UserTask>()
                 .HasOne(u => u.Category)

@@ -9,8 +9,9 @@ namespace AdvancedTaskControl.API.ViewModels
 {
     public class UserTaskViewModel
     {
-        public string description { get; set; }
-        public string resume { get; set; }
-        public int userId { get; set; }
+        public string Description { get; set; }
+        public string Resume { get; set; }
+        public int UserId { get; set; }
+        public int CategoryId { get; set; }
     }
 }
