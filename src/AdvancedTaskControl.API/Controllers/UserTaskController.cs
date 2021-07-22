@@ -18,11 +18,14 @@ namespace AdvancedTaskControl.API.Controllers
     public class UserTaskController : ControllerBase
     {
         private readonly IUserTaskService _userTaskService;
+        private readonly IUserTaskAllocatorService _userTaskAllocatorService;
+
         private readonly IMapper _mapper;
 
-        public UserTaskController(IUserTaskService userTaskService, IMapper mapper)
+        public UserTaskController(IUserTaskService userTaskService, IUserTaskAllocatorService userTaskAllocatorService, IMapper mapper)
         {
             _userTaskService = userTaskService;
+            _userTaskAllocatorService = userTaskAllocatorService;
             _mapper = mapper;
         }
 
@@ -31,6 +34,8 @@ namespace AdvancedTaskControl.API.Controllers
         public async Task<ActionResult<UserTaskViewModel>> AddUserTask(UserTaskViewModel userTaskModelView)
         {
             var userTask = _mapper.Map<UserTask>(userTaskModelView);
+
+            userTask = _userTaskAllocatorService.AllocateUserTaskToUser(userTask);
 
             if (!await _userTaskService.Insert(userTask))
                 return BadRequest("Erro ao inserir tarefa!");

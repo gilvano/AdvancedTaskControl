@@ -21,7 +21,7 @@ namespace AdvancedTaskControl.Data.Migrations
                 newName: "IX_UserTasks_userId");
 
             migrationBuilder.AlterColumn<int>(
-                name: "userId",
+                name: "UserId",
                 table: "UserTasks",
                 nullable: false,
                 oldClrType: typeof(int),
