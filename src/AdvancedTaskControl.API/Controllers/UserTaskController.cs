@@ -19,13 +19,18 @@ namespace AdvancedTaskControl.API.Controllers
     {
         private readonly IUserTaskService _userTaskService;
         private readonly IUserTaskAllocatorService _userTaskAllocatorService;
+        private readonly IUserTaskSenderService _userTaskSenderService;
 
         private readonly IMapper _mapper;
 
-        public UserTaskController(IUserTaskService userTaskService, IUserTaskAllocatorService userTaskAllocatorService, IMapper mapper)
+        public UserTaskController(IUserTaskService userTaskService, 
+                                  IUserTaskAllocatorService userTaskAllocatorService,
+                                  IUserTaskSenderService userTaskSenderService,
+                                  IMapper mapper)
         {
             _userTaskService = userTaskService;
             _userTaskAllocatorService = userTaskAllocatorService;
+            _userTaskSenderService = userTaskSenderService;
             _mapper = mapper;
         }
 
@@ -41,6 +46,21 @@ namespace AdvancedTaskControl.API.Controllers
                 return BadRequest("Erro ao inserir tarefa!");
 
             return Ok();
+        }
+
+
+        [HttpPost]
+        [Route("api/[controller]/usertasks")]
+        [Authorize(Roles = "ADM")]
+        public ActionResult AddUserTasks(List<UserTaskViewModel> userTasksModelView)
+        {
+            foreach (var userTaskModelView in userTasksModelView)
+            {
+                var userTask = _mapper.Map<UserTask>(userTaskModelView);
+                _userTaskSenderService.SendMessage(userTask);
+            }
+
+            return Accepted();
         }
 
         [HttpGet("{id}")]

@@ -14,6 +14,18 @@ services:
       - database-data:/var/lib/postgresql/data
     networks:
       - pg-network
+
+  rabbitmq:
+    image: rabbitmq:3.8.19-management-alpine
+    container_name: rabbitmq
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbitmq-data:/var/lib/rabbitmq/
+        - rabbitmq-log:/var/log/rabbitmq
+    networks:
+        - pg-network  
       
   advancedtaskcontrol.api:
     image: ${DOCKER_REGISTRY-}advancedtaskcontrolapi
@@ -22,11 +34,14 @@ services:
       dockerfile: src/AdvancedTaskControl.API/Dockerfile
     depends_on:
       - db-postgres
+      - rabbitmq
     networks:
       - pg-network
 
 volumes:
   database-data: 
+  rabbitmq-data:
+  rabbitmq-log:
 
 networks:
   pg-network:
