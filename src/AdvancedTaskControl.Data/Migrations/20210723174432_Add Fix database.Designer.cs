@@ -9,8 +9,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AdvancedTaskControl.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    [Migration("20210722031704_Fix UserId")]
-    partial class FixUserId
+    [Migration("20210723174432_Add Fix database")]
+    partial class AddFixdatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

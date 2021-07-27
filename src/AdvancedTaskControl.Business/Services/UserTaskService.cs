@@ -11,23 +11,19 @@ namespace AdvancedTaskControl.Business.Services
     public class UserTaskService : IUserTaskService
     {
         private readonly IUserTaskRepository _userTaskRepository;
+        private readonly IUserTaskAllocatorService _userTaskAllocatorService;
 
-        public UserTaskService(IUserTaskRepository userTaskRepository)
+        public UserTaskService(IUserTaskRepository userTaskRepository, IUserTaskAllocatorService userTaskAllocatorService)
         {
             _userTaskRepository = userTaskRepository;
+            _userTaskAllocatorService = userTaskAllocatorService;
         }
 
-        public async Task<bool> Insert(UserTask userTask)
+        public async Task Insert(UserTask userTask)
         {
-            try
-            {
-                await _userTaskRepository.Add(userTask);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            userTask = _userTaskAllocatorService.AllocateUserTaskToUser(userTask);
+
+            await _userTaskRepository.Add(userTask);
         }
 
         public async Task<List<UserTask>> GetAll()
