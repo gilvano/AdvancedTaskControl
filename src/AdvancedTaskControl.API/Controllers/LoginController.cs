@@ -24,7 +24,7 @@ namespace AdvancedTaskControl.API.Controllers
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public async Task<ActionResult> Authenticate(UserLoginModelView userLogin)
+        public async Task<ActionResult> Authenticate([FromBody]UserLoginModelView userLogin)
         {
             var users = await _userService.GetAll();
             var user = users.ToList()
