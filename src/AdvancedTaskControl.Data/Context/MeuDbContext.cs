@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BC = BCrypt.Net.BCrypt;
 
 namespace AdvancedTaskControl.Data.Context
 {
@@ -52,14 +53,14 @@ namespace AdvancedTaskControl.Data.Context
                     {
                         Id = -9991,
                         Username = "Admin",
-                        Password = "123",
+                        Password = BC.HashPassword("123"),
                         Role = "ADM"
                     },
                     new User
                     {
                         Id = -9992,
                         Username = "User",
-                        Password = "123",
+                        Password = BC.HashPassword("123"),
                         Role = "USER"
                     }
             );
