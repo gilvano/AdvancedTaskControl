@@ -1,23 +1,15 @@
 syntax = "proto3";
-import "google/protobuf/struct.proto";
 
-option csharp_namespace = "AdvancedTaskControl.gRPCService";
+option csharp_namespace = "AdvancedTaskControl.GRPCProto";
 
 package userTask;
 
-// The greeting service definition.
-service UserTask {
-  // Sends a greeting
+service UserTaskGRPC {
   rpc AddUserTask (UserTaskValue) returns (UserTaskReply);
 }
 
-// The request message containing the user's name.
-message UserTaskObject {
-  string object = 1;
-}
-
 message UserTaskValue {
-	google.protobuf.Value data = 1;
+	string message = 1;
 }
 
 // The response message containing the greetings.

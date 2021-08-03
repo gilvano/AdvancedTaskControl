@@ -10,10 +10,11 @@ using Newtonsoft.Json.Converters;
 using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using System.Text.Json;
+using AdvancedTaskControl.GRPCProto;
 
 namespace AdvancedTaskControl.gRPCService
 {
-    public class UserTaskGRPCService : UserTask.UserTaskBase
+    public class UserTaskGRPCService : UserTaskGRPC.UserTaskGRPCBase
     {
         private readonly ILogger<UserTaskGRPCService> _logger;
         public UserTaskGRPCService(ILogger<UserTaskGRPCService> logger)
@@ -21,7 +22,7 @@ namespace AdvancedTaskControl.gRPCService
             _logger = logger;
         }
 
-        public override Task<UserTaskReply> AddUserTask(UserTaskValue request, ServerCallContext context)
+        public override Task <UserTaskReply> AddUserTask(UserTaskValue request, ServerCallContext context)
         {
             //var status = new UserTaskValue();
             //status.Data = Value.Parser.ParseJson(@"{
@@ -31,10 +32,11 @@ namespace AdvancedTaskControl.gRPCService
 
             // Convert dynamic values to JSON.
             // JSON can be read with a library like System.Text.Json or Newtonsoft.Json
-            var json = JsonFormatter.Default.Format(request.Data);
-            var document = JsonDocument.Parse(json);
+            //var json = JsonFormatter.Default.Format(request.userTaskString);
+            //var document = JsonDocument.Parse(json);
+            _logger.LogInformation("Mensagem recebida");
 
-            _logger.LogInformation(json);
+            _logger.LogInformation(request.Message.ToString());
 
             return Task.FromResult(new UserTaskReply
             {
