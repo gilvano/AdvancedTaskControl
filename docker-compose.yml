@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.5'
 
 services:
   db-postgres:
@@ -52,7 +52,21 @@ services:
     depends_on:
       - db-postgres
       - rabbitmq
-    networks:      
+    networks: 
+      - pg-network
+             
+  advancedtaskcontrol.gRPCService:
+    image: ${DOCKER_REGISTRY-}advancedtaskcontrolgrpcservice
+    build:
+      context: .
+      dockerfile: src/AdvancedTaskControl.gRPCService/Dockerfile
+    ports:
+      - 7000:80
+      - 7001:443
+    depends_on:
+      - db-postgres
+      - rabbitmq
+    networks:
       - pg-network
 
 volumes:
@@ -62,6 +76,6 @@ volumes:
 
 networks:
   pg-network:
-    driver: bridge
+    name: custom_network
 
   
