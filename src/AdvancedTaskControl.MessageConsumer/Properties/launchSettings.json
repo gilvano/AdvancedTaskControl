@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AdvancedTaskControl.MessageConsumer": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
