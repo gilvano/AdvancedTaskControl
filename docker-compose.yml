@@ -41,6 +41,20 @@ services:
     networks:
       - pg-network
 
+  advancedtaskcontrol.messageconsumer:
+    image: ${DOCKER_REGISTRY-}advancedtaskcontrolmessageconsumer
+    build:
+      context: .
+      dockerfile:  src/AdvancedTaskControl.MessageConsumer/Dockerfile
+    ports:
+      - 6000:80
+      - 6001:443
+    depends_on:
+      - db-postgres
+      - rabbitmq
+    networks:      
+      - pg-network
+
 volumes:
   database-data: 
   rabbitmq-data:
