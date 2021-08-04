@@ -1,7 +1,9 @@
 ﻿using AdvancedTaskControl.Business.Models;
 using AdvancedTaskControl.GRPCProto;
+using AdvancedTaskControl.MessageConsumer.Services;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -19,16 +21,29 @@ namespace AdvancedTaskControl.Business.Services
     }
     public class UserTaskProcessingService : IScopedProcessingService
     {
-        private int executionCount = 0;
         private readonly ILogger _logger;
         private readonly IServiceProvider _sp;
-        private readonly IConnection _connection;
-        private readonly IModel _channel;
+        private IConnection _connection;
+        private IModel _channel;
 
-        public UserTaskProcessingService(ILogger<UserTaskProcessingService> logger)
+        public UserTaskProcessingService(ILogger<UserTaskProcessingService> logger, IServiceProvider sp)
         {
             _logger = logger;
+            _sp = sp;
+        }
 
+        public async Task DoWork(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await ProcessUserTaskFromMessage();
+
+                await Task.Delay(10000, stoppingToken);
+                _logger.LogInformation("Aguardando 10 segundos");
+            }
+        }
+        private Task ProcessUserTaskFromMessage()
+        {
             var factory = new ConnectionFactory
             {
                 HostName = "rabbitmq",
@@ -43,74 +58,40 @@ namespace AdvancedTaskControl.Business.Services
                         exclusive: false,
                         autoDelete: false,
                         arguments: null);
-        }
-
-        public async Task DoWork(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                executionCount++;
-
-                _logger.LogInformation(
-                    "Scoped Processing Service is working. Count: {Count}", executionCount);
-
-                await ProcessUserTaskFromMessage();
-
-                await Task.Delay(10000, stoppingToken);
-            }
-        }
-        public async Task ProcessUserTaskFromMessage()
-        {
             var consumer = new AsyncEventingBasicConsumer(_channel);
 
-            consumer.Received += Consumer_Received;
+            consumer.Received += async (sender, @event) =>
+            {
+                try
+                {
+                    var contentArray = @event.Body.ToArray();
+                    var contentString = Encoding.UTF8.GetString(contentArray);
+                    var message = JsonConvert.DeserializeObject<UserTask>(contentString);
+                    _logger.LogInformation(contentString);
 
-            _channel.BasicConsume("usertasks-queue", false, consumer);
+                    await SendUserTasktoGRPCAsync(contentString);
+
+                    _channel.BasicAck(@event.DeliveryTag, false);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogInformation("Erro ao inserir tarefa! Detalhes:  " + e.Message);
+                }
+            };
+            _channel.BasicConsume("usertasks-queue", autoAck: false, consumer: consumer);
+            return Task.CompletedTask;
         }
 
-        private async Task Consumer_Received(object sender, BasicDeliverEventArgs @event)
+        private async Task SendUserTasktoGRPCAsync(string message)
         {
-            await Task.Delay(3000);
-            var contentArray = @event.Body.ToArray();
-            var contentString = Encoding.UTF8.GetString(contentArray);
-            var message = JsonConvert.DeserializeObject<UserTask>(contentString);
-            _logger.LogInformation(contentString);
-            try
+            using (var scope = _sp.CreateScope())
             {
-                await SendUserTasktoGRPCAsync(contentString);
+                var scopedSendUserTasktoGRPCService =
+                    scope.ServiceProvider
+                        .GetRequiredService<ISendUserTasktoGRPCService>();
 
-                _channel.BasicAck(@event.DeliveryTag, false);
+                await scopedSendUserTasktoGRPCService.SendUserTasktoGRPCAsync(message);
             }
-            catch (Exception e)
-            {
-                _logger.LogInformation("Erro ao inserir tarefa! Detalhes:  " + e.Message);
-            }
-        }
-
-        public async Task SendUserTasktoGRPCAsync(string message)
-        {
-            try
-            {
-                AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
-
-                var channel = GrpcChannel.ForAddress("http://AdvancedTaskControl.gRPCService",
-                     channelOptions: new GrpcChannelOptions()
-                     {
-                         Credentials = ChannelCredentials.Insecure
-                     });
-
-                var client = new UserTaskGRPC.UserTaskGRPCClient(channel);
-
-                var userTaskValue = new UserTaskValue { Message = message };
-
-                var reply = await client.AddUserTaskAsync(userTaskValue);
-                _logger.LogInformation("Resposta: ${0}", reply);
-            }
-            catch (Exception e)
-            {
-                _logger.LogInformation("Erro grpc:  " + e.Message);
-            }
-
         }
     }
 }
