@@ -6,6 +6,7 @@ using Grpc.Core;
 using Microsoft.Extensions.Hosting;
 using AdvancedTaskControl.Business.Services;
 using Microsoft.Extensions.DependencyInjection;
+using AdvancedTaskControl.MessageConsumer.Services;
 
 namespace AdvancedTaskControl.MessageConsumer
 {
@@ -29,8 +30,9 @@ namespace AdvancedTaskControl.MessageConsumer
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<UserTaskConsumerService>()
-                            .AddLogging()
-                            .AddScoped<IScopedProcessingService, UserTaskProcessingService>();
+                            .AddLogging();
+                    services.AddScoped<IScopedProcessingService, UserTaskProcessingService>();
+                    services.AddScoped<ISendUserTasktoGRPCService, SendUserTasktoGRPCService>();
 
                 });
 

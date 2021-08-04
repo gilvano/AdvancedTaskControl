@@ -52,6 +52,7 @@ services:
     depends_on:
       - db-postgres
       - rabbitmq
+      - advancedtaskcontrol.gRPCService
     networks: 
       - pg-network
              
