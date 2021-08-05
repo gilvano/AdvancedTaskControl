@@ -11,37 +11,47 @@ using Google.Protobuf.Reflection;
 using Google.Protobuf.WellKnownTypes;
 using System.Text.Json;
 using AdvancedTaskControl.GRPCProto;
+using AdvancedTaskControl.Business.Models;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+using AdvancedTaskControl.Business.Interfaces;
 
 namespace AdvancedTaskControl.gRPCService
 {
     public class UserTaskGRPCService : UserTaskGRPC.UserTaskGRPCBase
     {
         private readonly ILogger<UserTaskGRPCService> _logger;
-        public UserTaskGRPCService(ILogger<UserTaskGRPCService> logger)
+        private readonly IUserTaskService _userTaskService;
+        public UserTaskGRPCService(ILogger<UserTaskGRPCService> logger, IUserTaskService userTaskService)
         {
             _logger = logger;
+            _userTaskService = userTaskService;
         }
 
-        public override Task <UserTaskReply> AddUserTask(UserTaskValue request, ServerCallContext context)
+        public override async Task <UserTaskReply> AddUserTask(UserTaskValue request, ServerCallContext context)
         {
-            //var status = new UserTaskValue();
-            //status.Data = Value.Parser.ParseJson(@"{
-            //    ""enabled"": true,
-            //    ""metadata"": [ ""value1"", ""value2"" ]
-            //}");
-
-            // Convert dynamic values to JSON.
-            // JSON can be read with a library like System.Text.Json or Newtonsoft.Json
-            //var json = JsonFormatter.Default.Format(request.userTaskString);
-            //var document = JsonDocument.Parse(json);
             _logger.LogInformation("Mensagem recebida");
-
             _logger.LogInformation(request.Message.ToString());
 
-            return Task.FromResult(new UserTaskReply
+            var jsonString = request.Message.ToString();
+            UserTask userTask = JsonSerializer.Deserialize<UserTask>(@jsonString);
+
+            try
             {
-                Message = "Ok"
-            });
+                await _userTaskService.Insert(userTask);
+
+                return new UserTaskReply
+                {
+                    Message = "Ok"
+                };
+            }
+            catch(Exception e)
+            {
+                _logger.LogError(e.Message);
+                return new UserTaskReply
+                {
+                    Message = $"Erro: {e.Message}"
+                };
+            }
         }
     }
 }
