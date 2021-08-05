@@ -22,7 +22,6 @@ namespace AdvancedTaskControl.Business.Services
         public async Task Insert(UserTask userTask)
         {
             userTask = _userTaskAllocatorService.AllocateUserTaskToUser(userTask);
-
             await _userTaskRepository.Add(userTask);
         }
 

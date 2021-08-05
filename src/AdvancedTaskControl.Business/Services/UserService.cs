@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BC = BCrypt.Net.BCrypt;
 
 namespace AdvancedTaskControl.Business.Services
 {
@@ -20,6 +21,8 @@ namespace AdvancedTaskControl.Business.Services
         {
             if(await _userRepository.ExistsUsername(user.Username)) 
                 return false;
+
+            user.Password = BC.HashPassword(user.Password);
 
             await _userRepository.Add(user);
             return true;
