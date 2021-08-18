@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using BC = BCrypt.Net.BCrypt;
 
@@ -83,6 +84,29 @@ namespace AdvancedTaskControl.Data.Context
                         CategoryDescription = "Categoria 3"
                     }
                 );
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var AddedEntities = ChangeTracker.Entries()
+                .Where(E => E.Entity.GetType().GetProperty("CreatedDate") != null && E.State == EntityState.Added)
+                .ToList();
+
+            AddedEntities.ForEach(E =>
+            {
+                E.Property("CreatedDate").CurrentValue = DateTime.Now;
+            });
+
+            var EditedEntities = ChangeTracker.Entries()
+                .Where(E => E.Entity.GetType().GetProperty("ModifiedDate") != null && E.State == EntityState.Modified)
+                .ToList();
+
+            EditedEntities.ForEach(E =>
+            {
+                E.Property("ModifiedDate").CurrentValue = DateTime.Now;
+            });
+
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
     }
 }
