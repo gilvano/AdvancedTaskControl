@@ -1,13 +1,9 @@
 ﻿using AdvancedTaskControl.Business.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdvancedTaskControl.API.Models
 {
-    public class User
+    public class User : EntityBase
     {
         public int Id { get; set; }
         public string Username { get; set; }
