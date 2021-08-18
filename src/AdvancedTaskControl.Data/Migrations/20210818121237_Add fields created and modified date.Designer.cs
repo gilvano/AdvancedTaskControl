@@ -3,15 +3,17 @@ using System;
 using AdvancedTaskControl.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace AdvancedTaskControl.Data.Migrations
 {
     [DbContext(typeof(MeuDbContext))]
-    partial class MeuDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210818121237_Add fields created and modified date")]
+    partial class Addfieldscreatedandmodifieddate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,14 +54,14 @@ namespace AdvancedTaskControl.Data.Migrations
                         new
                         {
                             Id = -9991,
-                            Password = "$2a$11$mPmO1oCWNYwthjMlSyl07.lwyDgMdBLXU0Na5F0He6VlBtMpLBbUy",
+                            Password = "$2a$11$/hFL2Lp11fXAX..ExleQW.t4QjGOADe3BDIJlDG95KZPa8kujGxei",
                             Role = "ADM",
                             Username = "Admin"
                         },
                         new
                         {
                             Id = -9992,
-                            Password = "$2a$11$9UJbkOaWviHbbBaN5ptCa./YYp//Xrr8wD4FUea3LFhX7ZupxIt9O",
+                            Password = "$2a$11$3Ng3uPV3w/.90kNpQkwlke9uGSEmXZjPEC1gvvbFBi4zg9XD5Ul6y",
                             Role = "USER",
                             Username = "User"
                         });
@@ -74,12 +76,6 @@ namespace AdvancedTaskControl.Data.Migrations
 
                     b.Property<string>("CategoryDescription")
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -113,14 +109,8 @@ namespace AdvancedTaskControl.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Resume")
                         .HasColumnType("text");
